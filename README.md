@@ -1,1 +1,5 @@
-# Apuntes Curso - Procesamiento de Imágenes
+# Procesamiento Digital de Imágenes
+
+## Año 2020
+
+Apuntes y trabajos prácticos
