@@ -1,5 +1,6 @@
 import math
 import numpy as np
+import logging
 
 from image_manip import (
         transform_to_yiq,
@@ -93,7 +94,7 @@ def apply_y_function_transformation(image, function=lambda pixel: pixel):
 def apply_sqrt(pixel):
     y, i,q = pixel
     
-    y = math.pow(y, 1/2)
+    y = math.sqrt(y)
     
     if y > 1:
         y=1
@@ -111,6 +112,7 @@ def apply_square(pixel):
     return [y,i,q]
 
 def linear_function_from_two_points(p1, p2):
+    logging.debug(p1, p2)
     x1, y1 = p1
     x2, y2 = p2
     
