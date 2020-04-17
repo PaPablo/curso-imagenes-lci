@@ -1,7 +1,11 @@
 {
-  "VoilaConfiguration": {
-    "theme": "dark",
-    "template": "gridstack",
-    "strip_sources": true
-  }
+    "VoilaConfiguration": {
+        "enable_nbextensions": true,
+        "extension_language_mapping": {
+            ".py": "python"
+        },
+        "language_kernel_mapping": {
+            "python": "python3"
+        }
+    }
 }
