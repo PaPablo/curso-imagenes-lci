@@ -1,0 +1,7 @@
+{
+  "VoilaConfiguration": {
+    "theme": "dark",
+    "template": "gridstack",
+    "strip_sources": true
+  }
+}
