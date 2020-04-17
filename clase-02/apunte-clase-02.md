@@ -72,3 +72,6 @@ Hay otras ideas que se han desarrollado en estos temas.
 Estas técnicas no son complejas, en wikipedia se pueden encontrar fácilmente.
 
 -> **Agregar al aplicativo**
+
+Link Al aplicativo [aquí](https://hub.gke.mybinder.org/user/papablo-curso-imagenes-lci-19lffvgh/voila/render/clase-02/tp2/image_filtering.ipynb?token=FlZQLOp5RCqKhdHjMb5XIA)
+
