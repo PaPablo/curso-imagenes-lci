@@ -10,7 +10,7 @@ from image_manip import (
         apply_yiq_transformation)
 
 from scipy import ndimage
-from PIL import Image 
+import imageio
 import matplotlib.pyplot as plt
 
 def generate_luminance_histogram(image, n_intervals=[10]):
@@ -59,7 +59,7 @@ def generate_luminance_histogram(image, n_intervals=[10]):
     plot_histogram(image, y_values, n_intervals)
     
 def generate_luminance_histogram_from_path(image_path, n_intervals):
-    generate_luminance_histogram(np.array(Image.open(image_path)), n_intervals)
+    generate_luminance_histogram(np.array(imageio.imread(image_path)), n_intervals)
 
 def apply_y_function_transformation(image, function=lambda pixel: pixel):
     """Applies a transformation to an image according to alpha and beta"""
