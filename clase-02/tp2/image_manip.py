@@ -30,8 +30,11 @@ def transform_to_yiq(pixel):
 
 def transform_to_rgb(pixel):
     """Transform from YIQ representation to RGB representation"""
-    return np.matmul(yiq_to_rgb, pixel)
-
+    try:
+        return np.matmul(yiq_to_rgb, pixel)
+    except Exception as e:
+        print(e, pixel)
+        raise e
 def apply_alpha_and_beta(alpha=1,  beta=1):
     """Applies alpha and beta values to a pixel
 
@@ -87,7 +90,7 @@ def apply_yiq_transformation(image, alpha=1, beta=1):
 
     # Apply transformation
     yiq_prime_image = map_pixels(
-            function=apply_alpha_and_beta,
+            function=apply_alpha_and_beta(alpha, beta),
             image=yiq_image
             )
 
