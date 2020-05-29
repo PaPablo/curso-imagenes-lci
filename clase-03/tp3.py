@@ -1,6 +1,6 @@
 import numpy as np
 import imageio
-from image_manip import rgb_to_yiq, yiq_to_rgb, map_pixels
+from image_manip import rgb_to_yiq, yiq_to_rgb
 
 import matplotlib.pyplot as plt
 
