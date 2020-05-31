@@ -1,4 +1,6 @@
 *.png
+*.pkl
+*.bmp
 slides
 
 ## GITIGNORE.IO ##
