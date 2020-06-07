@@ -24,6 +24,57 @@ import ipdb
 import numpy as np
 
 
+avg_3_3_kernel = np.ones((3, 3))/9
+avg_5_5_kernel = np.ones((5, 5))/25
+avg_7_7_kernel = np.ones((7, 7))/49
+
+
+def generate_bartlett_vector(length):
+    half = length // 2
+
+    head = np.arange(1, half+1)
+
+    result = head
+    result = np.append(result, [half+1])
+    result = np.append(result, head[::-1])
+
+    return result.flatten()
+
+
+def get_bartlett_kernel(length=3):
+
+    vector = generate_bartlett_vector(length)
+
+    kernel = np.outer(vector, vector)
+
+    kernel = kernel/np.sum(kernel)
+
+    return kernel
+
+
+def pascal_row(length=1):
+    if length == 1:
+        return [1]
+    else:
+        previous_row = pascal_row(length-1)
+        row = []
+        row.append(previous_row[0])
+        for i in range(len(previous_row) - 1):
+            row.append(previous_row[i] + previous_row[i+1])
+        row.append(previous_row[-1])
+        return row
+
+
+def get_gaussian_kernel(length=5):
+    vector = pascal_row(length)
+
+    kernel = np.outer(vector, vector)
+
+    kernel = kernel/np.sum(kernel)
+
+    return kernel
+
+
 def extend_image(image, x=0, y=0):
     """Extend the image in x and x pixels"""
     return np.pad(image, (x, y), mode='edge')
@@ -93,55 +144,6 @@ def conv_avg(image, width=3, height=3):
     return out_img
 
 
-def generate_bartlett_vector(length):
-    half = length // 2
-
-    head = np.arange(1, half+1)
-
-    result = head
-    result = np.append(result, [half+1])
-    result = np.append(result, head[::-1])
-
-    return result.flatten()
-
-
-def conv_bartlett(image, length=3):
-
-    vector = generate_bartlett_vector(length)
-
-    kernel = np.outer(vector, vector)
-
-    kernel = kernel/np.sum(kernel)
-
-    out = apply_kernel(image, kernel, image.shape)
-
-    return out
-
-
-def pascal_row(length=1):
-    if length == 1:
-        return [1]
-    else:
-        previous_row = pascal_row(length-1)
-        row = []
-        row.append(previous_row[0])
-        for i in range(len(previous_row) - 1):
-            row.append(previous_row[i] + previous_row[i+1])
-        row.append(previous_row[-1])
-        return row
-
-
-def conv_gaussian(image, length=5):
-    vector = pascal_row(length)
-
-    kernel = np.outer(vector, vector)
-
-    kernel = kernel/np.sum(kernel)
-
-    out = apply_kernel(image, kernel, image.shape)
-
-    return out
-
 def save_image(name, image):
     out = (image * 255).astype(np.uint8)
 
@@ -158,28 +160,60 @@ def main():
     imageio.imwrite('page.png', (page*255).astype(np.uint8))
 
     # Promedio 3x3
-    # c_avg_3_3 = (conv_avg(camera, 3, 3) * 255).astype(np.uint8)
-    # imageio.imwrite('c_avg_3_3.png', c_avg_3_3)
+    print("Avg 3x3")
+    c_avg_3_3 = apply_kernel(
+        camera,
+        avg_3_3_kernel
+    )
+    save_image('c_avg_3_3.png', c_avg_3_3)
     # Promedio 5x5
-    # c_avg_5_5 = (conv_avg(camera, 5, 5) * 255).astype(np.uint8)
-    # imageio.imwrite('c_avg_5_5.png', c_avg_5_5)
+    print("Avg 5x5")
+    c_avg_5_5 = apply_kernel(
+        camera,
+        avg_5_5_kernel
+    )
+    save_image('c_avg_5_5.png', c_avg_5_5)
     # Promedio 7x7
-    # c_avg_7_7 = (conv_avg(camera, 7, 7) * 255).astype(np.uint8)
-    # imageio.imwrite('c_avg_7_7.png', c_avg_7_7)
+    print("Avg 7x7")
+    c_avg_7_7 = apply_kernel(
+        camera,
+        avg_7_7_kernel
+    )
+    save_image('c_avg_7_7.png', c_avg_7_7)
     # Bartlett 3x3
-    # bartlett_3_3 = conv_bartlett(camera, 3)
-    # save_image('bartlett_3_3.png', bartlett_3_3)
+    print("Bartlett 3x3")
+    bartlett_3_3 = apply_kernel(
+        camera,
+        get_bartlett_kernel(3)
+    )
+    save_image('bartlett_3_3.png', bartlett_3_3)
     # Bartlett 5x5
-    # bartlett_5_5 = conv_bartlett(camera, 5)
-    # save_image('bartlett_5_5.png', bartlett_5_5)
+    print("Bartlett 5x5")
+    bartlett_5_5 = apply_kernel(
+        camera,
+        get_bartlett_kernel(5)
+    )
+    save_image('bartlett_5_5.png', bartlett_5_5)
     # Bartlett 7x7
-    # bartlett_7_7 = conv_bartlett(camera, 7)
-    # save_image('bartlett_7_7.png', bartlett_7_7)
+    print("Bartlett 7x7")
+    bartlett_7_7 = apply_kernel(
+        camera,
+        get_bartlett_kernel(7)
+    )
+    save_image('bartlett_7_7.png', bartlett_7_7)
     # Gaussiano 5x5
-    gaussian_5_5 = conv_gaussian(camera, 5)
+    print("Gaussian 5x5")
+    gaussian_5_5 = apply_kernel(
+        camera,
+        get_gaussian_kernel(length=5),
+        camera.shape)
     save_image('gaussian_5_5.png', gaussian_5_5)
     # Gaussiano 7x7
-    gaussian_7_7 = conv_gaussian(camera, 7)
+    print("Gaussian 7x7")
+    gaussian_7_7 = apply_kernel(
+        camera,
+        get_gaussian_kernel(length=7),
+        camera.shape)
     save_image('gaussian_7_7.png', gaussian_7_7)
     # Laplaciano v4
     # Laplaciano v8
