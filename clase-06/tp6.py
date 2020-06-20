@@ -85,10 +85,10 @@ def binarize(image, threshold=.5):
 
     return copy
 
+
 def main():
     text = imageio.imread('imageio:page.png') / 255
     text = invert(text)
-
 
     e_text = apply_operation(
         text,
