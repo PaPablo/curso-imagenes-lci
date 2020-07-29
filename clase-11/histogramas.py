@@ -9,7 +9,7 @@ from image_manip import (
         denormalize,
         apply_yiq_transformation)
 
-from scipy import ndimage
+
 import imageio
 import matplotlib.pyplot as plt
 

@@ -20,7 +20,6 @@ Implementar:
                 - Sobel O
                 """
 import imageio
-import ipdb
 import numpy as np
 
 
